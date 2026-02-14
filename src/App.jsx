@@ -411,14 +411,15 @@ bigTotalValue: {
   letterSpacing: 3,
   opacity: 0.6,
   marginTop: 10  },
-  totalValue: {
- fontSize: 72,
-  fontWeight: 1000,
+totalValue: {
+  fontSize: 72,
+  fontWeight: 900,
   letterSpacing: 1,
   marginTop: 8,
   marginBottom: 18,
   fontVariantNumeric: "tabular-nums",
-  textShadow: "0 4px 20px rgba(0,0,0,0.35)"  },
+  textShadow: "0 4px 20px rgba(0,0,0,0.35)",
+},
 
   footer: {
     textAlign: "center",
