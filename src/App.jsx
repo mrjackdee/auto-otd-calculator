@@ -438,5 +438,5 @@ totalValue: {
     marginTop: 22,
     opacity: 0.8,
     fontSize: 12
-  }
+  
 };
