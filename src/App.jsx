@@ -164,13 +164,18 @@ const styles = {
     color: "#FFFFFF",
     fontFamily:
       'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
-    padding: "44px 20px 24px",
-    },
+    padding: "44px 20px 24px"
+  },
 
-
-   
-},
-
+  cornerLogo: {
+    position: "fixed",
+    right: 18,
+    bottom: 18,
+    width: 70,
+    height: "auto",
+    opacity: 0.35,
+    pointerEvents: "none",
+    zIndex: 50
   },
 
   header: {
