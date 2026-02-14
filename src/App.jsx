@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { lookupByZip } from "./rates";
-import { calcOTD, formatUSD } from "./utils";
+import { calcOTD, formatCurrency, formatInputCurrency, toNumber } from "./utils";
+
 
 function cleanZip(raw) {
   return (raw || "").replace(/\D/g, "").slice(0, 5);
@@ -55,7 +56,7 @@ export default function App() {
               style={styles.input}
               value={priceRaw}
               placeholder="Example: 21312"
-              onChange={(e) => setPriceRaw(cleanMoney(e.target.value))}
+              onChange={(e) => setPriceRaw(formatInputCurrency(e.target.value))}
             />
           </label>
 
@@ -76,37 +77,37 @@ export default function App() {
             <div>Amount</div>
           </div>
 
-          <Row label="Selling Price" value={ready ? formatUSD(result.sellingPrice) : "—"} />
+          <Row label="Selling Price" value={ready ? formatCurrency(result.sellingPrice) : "—"} />
 
           <Row
             label={rate?.taxLabel || "Tax"}
             helper={taxHelper}
-            value={ready ? `${formatUSD(result.salesTax)} (${(result.taxRate * 100).toFixed(2)}%)` : "—"}
+            value={ready ? `${formatCurrency(result.salesTax)} (${(result.taxRate * 100).toFixed(2)}%)` : "—"}
           />
 
           <Row
             label="Title Fee"
             helper={rate ? `Title fee in ${rate.stateName}` : ""}
-            value={ready ? formatUSD(result.titleFee) : "—"}
+            value={ready ? formatCurrency(result.titleFee) : "—"}
           />
 
           <Row
             label="Registration Fee"
             helper={rate ? `Registration fee in ${rate.stateName}` : ""}
-            value={ready ? formatUSD(result.licenseFee) : "—"}
+            value={ready ? formatCurrency(result.licenseFee) : "—"}
           />
 
           <Row
             label="Estimated Dealer Fees"
             helper={rate ? `Typical dealer processing fees in ${rate.stateName}` : ""}
-            value={ready ? formatUSD(result.dealerFee) : "—"}
+            value={ready ? formatCurrency(result.dealerFee) : "—"}
           />
 
           <div style={styles.divider} />
 
           <div style={styles.totalRow}>
             <div style={styles.totalLeft}>Total Out The Door</div>
-            <div style={styles.totalRight}>{ready ? formatUSD(result.total) : "—"}</div>
+            <div style={styles.totalRight}>{ready ? formatCurrency(result.total) : "—"}</div>
           </div>
         </div>
       </div>
