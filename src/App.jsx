@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from "react";
 import { lookupByZip } from "./rates";
 import { calcOTD, formatCurrency, formatInputDollars, parseDollars } from "./utils";
+import logo from "./logo.png";
 
 const Row = ({ label, helper, value }) => (
   <div style={styles.row}>
     <div style={styles.rowLeft}>
       <div style={styles.rowLabel}>{label}</div>
       {helper ? <div style={styles.rowHelper}>{helper}</div> : null}
-    </div>
+    </div>x
     <div style={styles.rowValue}>{value}</div>
   </div>
 );
@@ -36,9 +37,13 @@ export default function App() {
 
   const ready = Boolean(result);
 
-  const taxPercentLabel = rate ? (rate.taxRate * 100).toFixed(2) : "0.00";
-  const taxLineLabel =
-    rate?.stateCode === "GA" ? `TAVT (${taxPercentLabel}%)` : `Sales Tax (${taxPercentLabel}%)`;
+    const taxPercentLabel = rate ? (rate.taxRate * 100).toFixed(2) : null;
+    const taxLineLabel =
+    rate?.stateCode === "GA"
+        ? `TAVT (${taxPercentLabel}%)`
+        : rate
+        ? `Sales Tax (${taxPercentLabel}%)`
+        : "Sales Tax";
 
   const taxHelper =
     rate?.stateCode === "GA"
@@ -48,8 +53,8 @@ export default function App() {
       : "";
 
   const reset = () => {
-    setPriceRaw("");
-    setZipRaw("30309"); // reset back to Georgia example
+    setPriceRaw("30,000");
+    setZipRaw("75201");
   };
 
   return (
@@ -119,7 +124,7 @@ export default function App() {
 
           <Row
             label="Title Fee"
-            helper={rate?.stateCode === "GA" ? "Standard state title application fee" : "Standard state title application fee"}
+            helper="Standard state title application fee"
             value={ready ? formatCurrency(result.titleFee) : "—"}
           />
 
@@ -143,6 +148,7 @@ export default function App() {
           <div style={styles.totalValue}>{ready ? formatCurrency(result.total) : "—"}</div>
         </div>
       </div>
+    <img src={logo} alt="MrJackDee logo" style={styles.cornerLogo} />
 
       <div style={styles.footer}>
         <strong>© 2026 MrJackDee™. All estimates are subject to local dealership verification and state law changes.</strong>
