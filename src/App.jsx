@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { lookupByZip } from "./rates";
-import { calcOTD, formatCurrency, formatInputCurrency, toNumber } from "./utils";
+import { calcOTD, formatCurrency, formatInputDollars, parseDollars } from "./utils";
+
 
 
 function cleanZip(raw) {
@@ -50,15 +51,20 @@ export default function App() {
         <div style={styles.title}>MrJackDee™ | Out the Door Price Estimator</div>
 
         <div style={styles.inputs}>
-          <label style={styles.label}>
-            <div style={styles.labelText}>Selling Price</div>
-            <input
-              style={styles.input}
-              value={priceRaw}
-              placeholder="Example: 21312"
-              onChange={(e) => setPriceRaw(formatInputCurrency(e.target.value))}
-            />
-          </label>
+<label style={styles.label}>
+  <div style={styles.labelText}>Selling Price</div>
+  <div style={styles.moneyWrap}>
+    <span style={styles.moneyPrefix}>$</span>
+    <input
+      style={styles.moneyInput}
+      value={priceRaw}
+      placeholder="21,312"
+      inputMode="numeric"
+      onChange={(e) => setPriceRaw(formatInputDollars(e.target.value))}
+    />
+  </div>
+</label>
+
 
           <label style={styles.label}>
             <div style={styles.labelText}>ZIP Code</div>

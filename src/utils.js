@@ -1,43 +1,46 @@
-export function toNumber(value) {
-  if (!value) return 0;
-  return Number(String(value).replace(/[^0-9.]/g, "")) || 0;
+export function digitsOnly(raw) {
+  return String(raw || "").replace(/\D/g, "");
+}
+
+export function parseDollars(raw) {
+  const d = digitsOnly(raw);
+  return d ? Number(d) : 0;
+}
+
+export function formatInputDollars(raw) {
+  const n = parseDollars(raw);
+  if (!n) return "";
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
 }
 
 export function formatCurrency(value) {
+  const n = Number(value) || 0;
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
-  }).format(Number(value) || 0);
+  }).format(n);
 }
 
-export function formatInputCurrency(value) {
-  const num = toNumber(value);
-  if (!num) return "";
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0
-  }).format(num);
-}
+export function calcOTD(sellingPriceNumber, taxRate, titleFee, registrationFee, dealerFee) {
+  const sellingPrice = Number(sellingPriceNumber) || 0;
+  const rate = Number(taxRate) || 0;
 
-export function calcOTD(price, taxRate, titleFee, registrationFee, dealerFee) {
-  const sellingPrice = toNumber(price);
-  const salesTax = sellingPrice * taxRate;
+  const title = Number(titleFee) || 0;
+  const reg = Number(registrationFee) || 0;
+  const dealer = Number(dealerFee) || 0;
 
-  const total =
-    sellingPrice +
-    salesTax +
-    titleFee +
-    registrationFee +
-    dealerFee;
+  const salesTax = sellingPrice * rate;
+  const total = sellingPrice + salesTax + title + reg + dealer;
 
   return {
     sellingPrice,
+    taxRate: rate,
     salesTax,
-    taxRate,
-    titleFee,
-    licenseFee: registrationFee,
-    dealerFee,
+    titleFee: title,
+    licenseFee: reg,
+    dealerFee: dealer,
     total
   };
 }
