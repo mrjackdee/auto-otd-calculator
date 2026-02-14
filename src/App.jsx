@@ -284,10 +284,11 @@ bigTotalValue: {
 
   inputsGrid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: "2.3fr 0.9fr",
     gap: 18,
     marginTop: 6,
-    marginBottom: 18
+    marginBottom: 18,
+    alignItems: "end"
   },
 
   inputLabel: {
