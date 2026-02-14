@@ -159,7 +159,7 @@ const styles = {
   maxWidth: 1200,
   margin: "0 auto",
   display: "grid",
-  gridTemplateColumns: "2fr 1fr",
+  gridTemplateColumns: "2.4fr 1fr",
   border: "1px solid rgba(255,255,255,0.2)",
   borderRadius: 14,
   overflow: "hidden"
