@@ -171,7 +171,7 @@ leftPanel: {
 },
 
 rightPanel: {
-  background: "rgba(0,0,0,0.15)",
+background: "#001B34",
   padding: 26,
   borderLeft: "1px solid rgba(255,255,255,0.2)"
 },
@@ -407,17 +407,18 @@ bigTotalValue: {
     paddingBottom: 6
   },
   totalLabel: {
-    fontSize: 13,
-    letterSpacing: 4,
-    fontWeight: 900,
-    opacity: 0.9
-  },
+  fontSize: 12,
+  letterSpacing: 3,
+  opacity: 0.6,
+  marginTop: 10  },
   totalValue: {
-    fontSize: 56,
-    fontWeight: 1000,
-    lineHeight: 1,
-    fontVariantNumeric: "tabular-nums"
-  },
+ fontSize: 72,
+  fontWeight: 1000,
+  letterSpacing: 1,
+  marginTop: 8,
+  marginBottom: 18,
+  fontVariantNumeric: "tabular-nums",
+  textShadow: "0 4px 20px rgba(0,0,0,0.35)"  },
 
   footer: {
     textAlign: "center",
