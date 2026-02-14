@@ -406,11 +406,12 @@ bigTotalValue: {
     paddingTop: 18,
     paddingBottom: 6
   },
-  totalLabel: {
+totalLabel: {
   fontSize: 12,
   letterSpacing: 3,
   opacity: 0.6,
-  marginTop: 10  },
+  marginTop: 10,
+},
 totalValue: {
   fontSize: 72,
   fontWeight: 900,
