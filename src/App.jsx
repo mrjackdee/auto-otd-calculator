@@ -187,3 +187,18 @@ const styles = {
     borderTop: "1px solid #eef2f7"
   },
   leftBlock: { display: "flex", flexDirection: "column", gap: 6, maxWidth: "70%" },
+  tdLeft: { fontSize: 16, color: "#374151", fontWeight: 700 },
+  helper: { fontSize: 14, color: "#2563eb" },
+  tdRight: { fontSize: 16, color: "#111827", fontWeight: 800, fontVariantNumeric: "tabular-nums" },
+
+  divider: { height: 1, background: "#e5e7eb", marginTop: 6 },
+
+  totalRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "18px 0",
+    borderTop: "1px solid #eef2f7"
+  },
+  totalLeft: { fontSize: 18, color: "#111827", fontWeight: 900 },
+  totalRight: { fontSize: 18, color: "#111827", fontWeight: 900, fontVariantNumeric: "tabular-nums" }
+};
