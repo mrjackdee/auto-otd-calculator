@@ -121,6 +121,11 @@ export default function App() {
 
   </div>
 
+</div>
+
+<div style={styles.dividerVertical}></div>
+
+<div style={styles.rightPanel}>
 
   <div style={styles.rightPanel}>
 
@@ -155,11 +160,11 @@ export default function App() {
 }
 
 const styles = {
-  appShell: {
   maxWidth: 1200,
   margin: "0 auto",
   display: "grid",
-  gridTemplateColumns: "2.4fr 1fr",
+  gridTemplateColumns: "2fr 1px 1fr",
+  columnGap: 24,
   border: "1px solid rgba(255,255,255,0.2)",
   borderRadius: 14,
   overflow: "hidden"
@@ -169,11 +174,15 @@ leftPanel: {
   background: "#002B55",
   padding: 26
 },
+dividerVertical: {
+  width: 1,
+  background: "rgba(255,255,255,0.18)",
+  alignSelf: "stretch"
+},
 
 rightPanel: {
 background: "#001B34",
   padding: 26,
-  borderLeft: "1px solid rgba(255,255,255,0.2)"
 },
 
 sectionHeader: {
