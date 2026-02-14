@@ -148,7 +148,7 @@ export default function App() {
     <img src={logo} alt="MrJackDee logo" style={styles.cornerLogo} />
 
       <div style={styles.footer}>
-        <strong>© 2026 MrJackDee™. All estimates are subject to local dealership verification and state law changes.</strong>
+        <strong>© 2026 MrJackDee™. Note: All estimates are subject to local dealership verification and state law changes.</strong>
       </div>
     </div>
   );
