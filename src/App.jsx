@@ -437,6 +437,6 @@ totalValue: {
     textAlign: "center",
     marginTop: 22,
     opacity: 0.8,
-    fontSize: 12
-  
+ fontSize: 12
+  }
 };
