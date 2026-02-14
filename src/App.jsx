@@ -122,12 +122,12 @@ export default function App() {
   </div>
 
 </div>
+  </div>
 
-<div style={styles.dividerVertical}></div>
-
-<div style={styles.rightPanel}>
+  <div style={styles.dividerVertical}></div>
 
   <div style={styles.rightPanel}>
+
 
     <div style={styles.summaryText}>
       {rate?.stateCode === "GA"
@@ -160,15 +160,16 @@ export default function App() {
 }
 
 const styles = {
-  maxWidth: 1200,
-  margin: "0 auto",
-  display: "grid",
-  gridTemplateColumns: "2fr 1px 1fr",
-  columnGap: 24,
-  border: "1px solid rgba(255,255,255,0.2)",
-  borderRadius: 14,
-  overflow: "hidden"
-},
+  appShell: {
+    maxWidth: 1200,
+    margin: "0 auto",
+    display: "grid",
+    gridTemplateColumns: "2fr 1px 1fr",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: 14,
+    overflow: "hidden"
+  },
+
 
 leftPanel: {
   background: "#002B55",
