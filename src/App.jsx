@@ -8,7 +8,7 @@ const Row = ({ label, helper, value }) => (
     <div style={styles.rowLeft}>
       <div style={styles.rowLabel}>{label}</div>
       {helper ? <div style={styles.rowHelper}>{helper}</div> : null}
-    </div>x
+    </div>
     <div style={styles.rowValue}>{value}</div>
   </div>
 );
@@ -53,8 +53,8 @@ export default function App() {
       : "";
 
   const reset = () => {
-    setPriceRaw("30,000");
-    setZipRaw("75201");
+    setPriceRaw("");
+    setZipRaw("");
   };
 
   return (
@@ -164,17 +164,11 @@ const styles = {
     color: "#FFFFFF",
     fontFamily:
       'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
-    padding: "44px 20px 24px"
+    padding: "44px 20px 24px",
+    },
 
-    cornerLogo: {
-    position: "fixed",
-    right: 18,
-    bottom: 18,
-    width: 70,
-    height: "auto",
-    opacity: 0.35,
-    pointerEvents: "none",
-    zIndex: 50
+
+   
 },
 
   },
