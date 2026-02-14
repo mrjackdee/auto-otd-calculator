@@ -26,10 +26,12 @@ export default function App() {
   const [priceRaw, setPriceRaw] = useState("");
   const [zipRaw, setZipRaw] = useState("30309");
 
-  const zip = useMemo(() => cleanZip(zipRaw), [zipRaw]);
+const zip = useMemo(() => String(zipRaw || "").replace(/\D/g, "").slice(0, 5), [zipRaw]);
   const rate = useMemo(() => lookupByZip(zip), [zip]);
+const invalidZip = zip.length === 5 && !rate;
 
-  const sellingPrice = Number(priceRaw) || 0;
+const sellingPrice = Number(String(priceRaw).replace(/,/g, "")) || 0;
+
 
   const result =
     rate && sellingPrice > 0
