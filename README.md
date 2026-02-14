@@ -1,2 +1,2 @@
 # auto-otd-calculator
-MrJackDee Auto Out the Door Calculator
+MrJackDee Out the Door Calculator
