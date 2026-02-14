@@ -159,7 +159,6 @@ export default function App() {
   );
 }
 
-const styles = {
   appShell: {
     maxWidth: 1200,
     margin: "0 auto",
@@ -439,4 +438,4 @@ totalValue: {
     opacity: 0.8,
     fontSize: 12
   }
-};
+}
