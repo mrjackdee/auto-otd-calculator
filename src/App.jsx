@@ -64,90 +64,87 @@ export default function App() {
         <div style={styles.subtitle}>OUT THE DOOR PRICE ESTIMATOR</div>
       </div>
 
-      <div style={styles.card}>
-        <div style={styles.cardTopRow}>
-          <div style={styles.spacer} />
-          <button type="button" style={styles.resetBtn} onClick={reset}>
-            <span style={styles.resetIcon}>↻</span>
-            Reset
-          </button>
-        </div>
+<div style={styles.appShell}>
 
-        <div style={styles.inputsGrid}>
-          <div>
-            <div style={styles.inputLabel}>SELLING PRICE</div>
-            <div style={styles.moneyWrap}>
-              <span style={styles.moneyPrefix}>$</span>
-              <input
-                style={styles.moneyInput}
-                value={priceRaw}
-                placeholder="30,000"
-                inputMode="numeric"
-                onChange={(e) => setPriceRaw(formatInputDollars(e.target.value))}
-              />
-            </div>
-          </div>
+  <div style={styles.leftPanel}>
 
-          <div>
-            <div style={styles.inputLabel}>ZIP CODE</div>
-            <input
-              style={styles.zipInput}
-              value={zipRaw}
-              placeholder="75201"
-              inputMode="numeric"
-              onChange={(e) => setZipRaw(e.target.value)}
-            />
-          </div>
-        </div>
+    <div style={styles.sectionHeader}>
+      <div style={styles.sectionHeaderTitle}>Calculator</div>
+      <div style={styles.sectionHeaderSub}>
+        Enter price and ZIP to estimate your out the door total.
+      </div>
+    </div>
 
-        {invalidZip ? (
-          <div style={styles.error}>
-            This estimator is only valid for ZIP codes located in Texas or Georgia.
-          </div>
-        ) : null}
-
-        <div style={styles.sectionTitle}>PURCHASE DETAILS</div>
-        <div style={styles.divider} />
-
-        <div style={styles.rows}>
-          <Row
-            label="Selling Price"
-            helper="Base vehicle price before taxes and fees"
-            value={ready ? formatCurrency(result.sellingPrice) : "—"}
+    <div style={styles.inputsGrid}>
+      <div>
+        <div style={styles.inputLabel}>SELLING PRICE</div>
+        <div style={styles.moneyWrap}>
+          <span style={styles.moneyPrefix}>$</span>
+          <input
+            style={styles.moneyInput}
+            value={priceRaw}
+            placeholder="30,000"
+            inputMode="numeric"
+            onChange={(e) => setPriceRaw(formatInputDollars(e.target.value))}
           />
-
-          <Row
-            label={taxLineLabel}
-            helper={taxHelper}
-            value={ready ? formatCurrency(result.salesTax) : "—"}
-          />
-
-          <Row
-            label="Title Fee"
-            helper="Standard state title application fee"
-            value={ready ? formatCurrency(result.titleFee) : "—"}
-          />
-
-          <Row
-            label="Registration Fee"
-            helper={rate?.stateCode === "TX" ? "Annual vehicle registration based on weight" : "Annual vehicle registration fee"}
-            value={ready ? formatCurrency(result.licenseFee) : "—"}
-          />
-
-          <Row
-            label="Estimated Dealer Fees"
-            helper="Average documentation and processing fees"
-            value={ready ? formatCurrency(result.dealerFee) : "—"}
-          />
-        </div>
-
-        <div style={styles.totalDivider} />
-
-        <div style={styles.totalRow}>
-          <div style={styles.totalLabel}>TOTAL OUT THE DOOR</div>
-          <div style={styles.totalValue}>{ready ? formatCurrency(result.total) : "—"}</div>
         </div>
       </div>
+
+      <div>
+        <div style={styles.inputLabel}>ZIP CODE</div>
+        <input
+          style={styles.zipInput}
+          value={zipRaw}
+          placeholder="75201"
+          inputMode="numeric"
+          onChange={(e) => setZipRaw(e.target.value)}
+        />
+      </div>
+    </div>
+
+    {invalidZip ? (
+      <div style={styles.error}>
+        This estimator is only valid for ZIP codes located in Texas or Georgia.
+      </div>
+    ) : null}
+
+    <div style={styles.sectionTitle}>PURCHASE DETAILS</div>
+    <div style={styles.divider} />
+
+    <div style={styles.rows}>
+      <Row label="Selling Price" helper="Base vehicle price before taxes and fees" value={ready ? formatCurrency(result.sellingPrice) : "—"} />
+      <Row label={taxLineLabel} helper={taxHelper} value={ready ? formatCurrency(result.salesTax) : "—"} />
+      <Row label="Title Fee" helper="Standard state title application fee" value={ready ? formatCurrency(result.titleFee) : "—"} />
+      <Row label="Registration Fee" helper="Annual vehicle registration fee" value={ready ? formatCurrency(result.licenseFee) : "—"} />
+      <Row label="Estimated Dealer Fees" helper="Average documentation and processing fees" value={ready ? formatCurrency(result.dealerFee) : "—"} />
+    </div>
+
+  </div>
+
+
+  <div style={styles.rightPanel}>
+
+    <div style={styles.summaryText}>
+      {rate?.stateCode === "GA"
+        ? "Georgia TAVT estimate"
+        : rate?.stateCode === "TX"
+        ? "Texas vehicle purchase estimate"
+        : "Enter price and ZIP to estimate"}
+    </div>
+
+    <div style={styles.bigTotalLabel}>TOTAL OUT THE DOOR</div>
+    <div style={styles.bigTotalValue}>
+      {ready ? formatCurrency(result.total) : "—"}
+    </div>
+
+    <button type="button" style={styles.resetBtn} onClick={reset}>
+      ↻ Reset
+    </button>
+
+  </div>
+
+</div>
+
     <img src={logo} alt="MrJackDee logo" style={styles.cornerLogo} />
 
       <div style={styles.footer}>
@@ -158,13 +155,67 @@ export default function App() {
 }
 
 const styles = {
+  appShell: {
+  maxWidth: 1200,
+  margin: "0 auto",
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  border: "1px solid rgba(255,255,255,0.2)",
+  borderRadius: 14,
+  overflow: "hidden"
+},
+
+leftPanel: {
+  background: "#002B55",
+  padding: 26
+},
+
+rightPanel: {
+  background: "rgba(0,0,0,0.15)",
+  padding: 26,
+  borderLeft: "1px solid rgba(255,255,255,0.2)"
+},
+
+sectionHeader: {
+  marginBottom: 20
+},
+
+sectionHeaderTitle: {
+  fontSize: 20,
+  fontWeight: 900
+},
+
+sectionHeaderSub: {
+  marginTop: 6,
+  fontSize: 14,
+  color: "#4A90E2"
+},
+
+summaryText: {
+  fontSize: 14,
+  color: "#4A90E2",
+  fontWeight: 800
+},
+
+bigTotalLabel: {
+  marginTop: 20,
+  letterSpacing: 4,
+  fontSize: 12
+},
+
+bigTotalValue: {
+  fontSize: 58,
+  fontWeight: 1000,
+  marginTop: 8
+},
+
   page: {
     minHeight: "100vh",
     background: "#001F3F",
     color: "#FFFFFF",
     fontFamily:
       'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
-    padding: "44px 20px 24px"
+    padding: "44px 20px 80px"
   },
 
   cornerLogo: {
