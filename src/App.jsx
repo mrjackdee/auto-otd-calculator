@@ -158,6 +158,7 @@ export default function App() {
     </div>
   );
 }
+const styles = {
 
   appShell: {
     maxWidth: 1200,
@@ -438,4 +439,4 @@ totalValue: {
     opacity: 0.8,
     fontSize: 12
   }
-}
+};
