@@ -10,21 +10,19 @@ function cleanMoney(raw) {
   return (raw || "").replace(/[^0-9.]/g, "");
 }
 
-const Row = ({ label, helper, value }) => {
-  return (
-    <div style={styles.tr}>
-      <div style={styles.leftBlock}>
-        <div style={styles.tdLeft}>{label}</div>
-        {helper ? <div style={styles.helper}>{helper}</div> : null}
-      </div>
-      <div style={styles.tdRight}>{value}</div>
+const Row = ({ label, helper, value }) => (
+  <div style={styles.tr}>
+    <div style={styles.leftBlock}>
+      <div style={styles.tdLeft}>{label}</div>
+      {helper ? <div style={styles.helper}>{helper}</div> : null}
     </div>
-  );
-};
+    <div style={styles.tdRight}>{value}</div>
+  </div>
+);
 
 export default function App() {
   const [priceRaw, setPriceRaw] = useState("");
-  const [zipRaw, setZipRaw] = useState("");
+  const [zipRaw, setZipRaw] = useState("30309");
 
   const zip = useMemo(() => cleanZip(zipRaw), [zipRaw]);
   const rate = useMemo(() => lookupByZip(zip), [zip]);
@@ -38,79 +36,69 @@ export default function App() {
 
   const ready = Boolean(result);
 
-  const taxLabel = rate?.taxLabel || "Sales Tax";
-  const stateName = rate?.stateName || "your state";
+  let taxHelper = "";
+  if (rate?.stateCode === "GA") {
+    taxHelper = "TAVT (Title Ad Valorem Tax, Georgia)";
+  } else if (rate?.stateCode === "TX") {
+    taxHelper = "Motor vehicle sales tax in Texas";
+  }
 
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <div style={styles.top}>
-          <div style={styles.title}>Out The Door Price Estimator</div>
-          <div style={styles.subTitle}>
-            Enter the selling price and ZIP code. This calculator estimates tax, title, and registration for Georgia and Texas.
-          </div>
+        <div style={styles.title}>MrJackDee™ | Out the Door Price Estimator</div>
 
-          <div style={styles.inputs}>
-            <label style={styles.label}>
-              <div style={styles.labelText}>Selling Price</div>
-              <input
-                style={styles.input}
-                placeholder="Example: 21312"
-                value={priceRaw}
-                inputMode="decimal"
-                onChange={(e) => setPriceRaw(cleanMoney(e.target.value))}
-              />
-            </label>
+        <div style={styles.inputs}>
+          <label style={styles.label}>
+            <div style={styles.labelText}>Selling Price</div>
+            <input
+              style={styles.input}
+              value={priceRaw}
+              placeholder="Example: 21312"
+              onChange={(e) => setPriceRaw(cleanMoney(e.target.value))}
+            />
+          </label>
 
-            <label style={styles.label}>
-              <div style={styles.labelText}>ZIP Code</div>
-              <input
-                style={styles.input}
-                placeholder="Example: 30034"
-                value={zipRaw}
-                inputMode="numeric"
-                onChange={(e) => setZipRaw(e.target.value)}
-              />
-            </label>
-          </div>
-
-          {!rate && zip.length === 5 ? (
-            <div style={styles.notice}>This MVP supports Georgia and Texas only. Try 30034 (GA) or 75201 (TX).</div>
-          ) : null}
+          <label style={styles.label}>
+            <div style={styles.labelText}>ZIP Code</div>
+            <input
+              style={styles.input}
+              value={zipRaw}
+              placeholder="Example: 30309"
+              onChange={(e) => setZipRaw(e.target.value)}
+            />
+          </label>
         </div>
 
         <div style={styles.tableWrap}>
           <div style={styles.tableHeader}>
-            <div style={styles.thLeft}>Purchase Details</div>
-            <div style={styles.thRight}>Amount</div>
+            <div>Purchase Details</div>
+            <div>Amount</div>
           </div>
 
           <Row label="Selling Price" value={ready ? formatUSD(result.sellingPrice) : "—"} />
 
           <Row
-            label={taxLabel}
-            helper={`Average combined ${taxLabel.toLowerCase()} in ${stateName}`}
-            value={
-              ready
-                ? `${formatUSD(result.salesTax)} (${(result.taxRate * 100).toFixed(2)}%)`
-                : "—"
-            }
+            label={rate?.taxLabel || "Tax"}
+            helper={taxHelper}
+            value={ready ? `${formatUSD(result.salesTax)} (${(result.taxRate * 100).toFixed(2)}%)` : "—"}
           />
 
           <Row
             label="Title Fee"
-            helper={`More info on title fee in ${stateName}`}
+            helper={rate ? `Title fee in ${rate.stateName}` : ""}
             value={ready ? formatUSD(result.titleFee) : "—"}
           />
 
           <Row
             label="Registration Fee"
+            helper={rate ? `Registration fee in ${rate.stateName}` : ""}
             value={ready ? formatUSD(result.licenseFee) : "—"}
           />
 
           <Row
             label="Estimated Dealer Fees"
-            helper={`Typical documentation and processing fees in ${stateName}`}
+            helper={rate ? `Typical dealer processing fees in ${rate.stateName}` : ""}
             value={ready ? formatUSD(result.dealerFee) : "—"}
           />
 
@@ -127,78 +115,27 @@ export default function App() {
 }
 
 const styles = {
-  page: {
-    minHeight: "100vh",
-    background: "#ffffff",
-    fontFamily:
-      'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial',
-    padding: 24
-  },
-  card: {
-    maxWidth: 900,
-    margin: "0 auto",
-    background: "#fff",
-    border: "1px solid #e5e7eb",
-    borderRadius: 14,
-    padding: 20
-  },
-  top: { paddingBottom: 10 },
-  title: { fontSize: 28, fontWeight: 800, color: "#111827" },
-  subTitle: { marginTop: 6, fontSize: 13, color: "#6b7280", lineHeight: 1.35 },
+  page: { padding: 24, fontFamily: "Arial" },
+  card: { maxWidth: 900, margin: "0 auto" },
+  title: { fontSize: 26, fontWeight: 800, marginBottom: 16 },
 
-  inputs: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 16 },
-  label: { display: "block" },
-  labelText: { fontSize: 12, color: "#374151", marginBottom: 6, fontWeight: 700 },
-  input: {
-    width: "100%",
-    padding: "12px 12px",
-    borderRadius: 10,
-    border: "1px solid #d1d5db",
-    background: "#fff",
-    color: "#111827",
-    fontSize: 14,
-    outline: "none"
-  },
+  inputs: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 },
+  label: {},
+  labelText: { fontSize: 12, marginBottom: 4 },
+  input: { padding: 10, border: "1px solid #ccc", borderRadius: 6 },
 
-  notice: {
-    marginTop: 12,
-    padding: 12,
-    borderRadius: 10,
-    border: "1px solid #fde68a",
-    background: "#fffbeb",
-    color: "#92400e",
-    fontSize: 12
-  },
+  tableWrap: { borderTop: "1px solid #ddd" },
+  tableHeader: { display: "flex", justifyContent: "space-between", fontWeight: 800, padding: "12px 0" },
 
-  tableWrap: { marginTop: 12, borderTop: "1px solid #e5e7eb" },
-  tableHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "16px 0",
-    fontSize: 22,
-    fontWeight: 800,
-    color: "#374151"
-  },
+  tr: { display: "flex", justifyContent: "space-between", padding: "14px 0", borderTop: "1px solid #eee" },
+  leftBlock: { display: "flex", flexDirection: "column" },
+  tdLeft: { fontWeight: 600 },
+  helper: { fontSize: 12, color: "#2563eb" },
+  tdRight: { fontWeight: 700 },
 
-  tr: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "18px 0",
-    borderTop: "1px solid #eef2f7"
-  },
-  leftBlock: { display: "flex", flexDirection: "column", gap: 6, maxWidth: "70%" },
-  tdLeft: { fontSize: 16, color: "#374151", fontWeight: 700 },
-  helper: { fontSize: 14, color: "#2563eb" },
-  tdRight: { fontSize: 16, color: "#111827", fontWeight: 800, fontVariantNumeric: "tabular-nums" },
+  divider: { borderTop: "2px solid #ddd", marginTop: 10 },
 
-  divider: { height: 1, background: "#e5e7eb", marginTop: 6 },
-
-  totalRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "18px 0",
-    borderTop: "1px solid #eef2f7"
-  },
-  totalLeft: { fontSize: 18, color: "#111827", fontWeight: 900 },
-  totalRight: { fontSize: 18, color: "#111827", fontWeight: 900, fontVariantNumeric: "tabular-nums" }
+  totalRow: { display: "flex", justifyContent: "space-between", padding: "16px 0" },
+  totalLeft: { fontSize: 18, fontWeight: 900 },
+  totalRight: { fontSize: 18, fontWeight: 900 }
 };
