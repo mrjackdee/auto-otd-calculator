@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { lookupByZip } from "./rates";;
+import { lookupByZip } from "./rates";
 import { calcOTD, formatCurrency, formatInputDollars, parseDollars } from "./utils";
 import logo from "./logo.png";
 
